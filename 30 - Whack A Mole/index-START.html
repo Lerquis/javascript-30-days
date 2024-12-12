@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Whack A Mole!</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Whack-a-mole! <span class="score">0</span></h1>
+    <button>Start!</button>
+
+    <div class="game">
+      <div class="hole hole1">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole2">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole3">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole4">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole5">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole6">
+        <div class="mole"></div>
+      </div>
+    </div>
+
+    <script>
+      //Selectores - variables
+      const holes = document.querySelectorAll(".hole");
+      const scoreBoard = document.querySelector(".score");
+      const moles = document.querySelectorAll(".mole");
+      const boton = document.querySelector("button");
+      let ultimoHueco;
+      let terminarJuego = false;
+
+      //Funciones
+      function randomTime(min, max) {
+        //Tenemos un numero random media entre los que le demos por parametro
+        return Math.round(Math.random() * (max = min) + min);
+      }
+
+      function randomHueco(holes) {
+        //Sacamos el index del hueco aleatorio
+        const indexHuecoAleatorio = Math.floor(Math.random() * holes.length);
+        //Extraemos el elemento del hueco aleatorio
+        const hueco = holes[indexHuecoAleatorio];
+        //Como no queremos que se salga el mismo seguidamente, tenemos una variable global donde guardamos el ultimo hueco, asi si vuelve a ser el mismo, volvemos a llamar la funcion
+        //Para que salga uno diferente si o si
+        if (hueco === ultimoHueco) return randomHueco(holes);
+
+        //Guardamos la referencia del ulitmo hueco
+        ultimoHueco = hueco;
+        return hueco;
+      }
+
+      function asomarTopo() {
+        //Tiempo aleatirio de 200ms a 1s y hueco aleatorio
+        const time = Math.floor(Math.random() * (1000 - 300) + 300);
+        console.log(time);
+        const hueco = randomHueco(holes);
+        //Animacion para sacar el topo
+        hueco.classList.add("up");
+        setTimeout(() => {
+          hueco.classList.remove("up");
+          if (!terminarJuego) asomarTopo();
+        }, time);
+      }
+
+      function sumarContador(e) {
+        //Alguien hace trampa desde la consola para hacer los clicks
+        if (!e.isTrusted) return;
+        scoreBoard.textContent = parseInt(scoreBoard.textContent) + 1;
+        // const contador = parseInt(scoreBoard.textContent) + 1;
+        // scoreBoard.textContent = contador;
+      }
+
+      function empezarJuego() {
+        //Seteamos el scoreboard en 0 por si alguien jugo recientemente
+        scoreBoard.textContent = 0;
+        //Para que siga el ciclo de salir topos
+        terminarJuego = false;
+        //Empezamos la funcion del juego
+        asomarTopo();
+        //Despues de 10 segundos terminarmos el juego
+        setTimeout(() => {
+          terminarJuego = true;
+        }, 10000);
+      }
+
+      //EventListeners
+      boton.addEventListener("click", empezarJuego);
+      //Por cada topo...
+      moles.forEach((mole) => {
+        mole.addEventListener("click", sumarContador);
+      });
+    </script>
+  </body>
+</html>

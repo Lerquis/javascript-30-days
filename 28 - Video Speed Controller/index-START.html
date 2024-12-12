@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Speed Scrubber</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <video
+        class="flex"
+        width="765"
+        height="430"
+        src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+        loop
+        controls
+      ></video>
+      <div class="speed">
+        <div class="speed-bar">1×</div>
+      </div>
+    </div>
+
+    <script>
+      //Selectores
+      const speed = document.querySelector(".speed");
+      const barra = speed.querySelector(".speed-bar");
+      const video = document.querySelector(".flex");
+
+      speed.addEventListener("mousemove", function (e) {
+        //Tenemos que tener el tamano de la barra de velocidad, para poder hacer despues operaciones y sacar el % de velocidad
+        const y = e.pageY - this.offsetTop;
+        //Math.round para poder tenerlo como int y no como float
+        const porcentaje = Math.round((y / this.offsetHeight) * 100);
+        //Velocidades del video
+        const minSpeed = 0.4;
+        const maxSpeed = 4;
+        //Sacamos la velocidad que el usuario eligio dependiendo de la barra. Lo dividimo entre 100 porque arriba se * por 100
+        const playbackRate =
+          (porcentaje / 100) * (maxSpeed - minSpeed) + minSpeed;
+
+        //La barra con height cambia el fondo
+        barra.style.height = `${porcentaje}%`;
+        //Cambiamos el texto de la velocidad de la barra
+        barra.textContent = playbackRate.toFixed(2) + "×";
+
+        //Le agregamos la velocidad al video
+        video.playbackRate = playbackRate;
+      });
+    </script>
+  </body>
+</html>

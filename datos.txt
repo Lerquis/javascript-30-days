@@ -1,0 +1,27 @@
+Aqui se estara anotando funciones, comandos, sintaxis que se vio y que parece interesante
+
+*Para poder saber que teclas esta presionando el usuario, se puede poner un addEventListener a la pagina mediante el window. El evento es 'keydown' y se puede acceder a sus funciones
+mediante el parametro de function(e){console.log(e)};
+
+*Si tenemos un sonido que podemos seleccionar en el documento y queremos reproducirlo, podemos 'elemento'.play(); y eso reproduce el sonido
+
+*setInterval sirve para poner intervalos de tiempos y realizar una funcion
+
+*console.table muestra los datos de un array u objeto en una tabla, lo que hace mas facil la visualizacion de los datos
+
+*RegExp se utiliza para hacer coincidir el texto con un patron. BUSCAR MAS INFORMACION EN INTERNET O EN EL ARCHIVO 06
+
+*Para cambiar un valor mediante un parametro, se puede hacer de esta manera. Normalmente seria 'msg.voice = voz', pero si msg tiene muchos valores que se puedan cambiar, y realizamos
+un cambio por parametro, podria ser, 'msg[datoACambiar]=valor' y los datos enviados por parametro
+
+*Los EventListener se envian registrando datos y guardandolos en pila, eso quiere decir que guarda todos los resultados, y empieza a dar los resultados de su funcion, del ultimo agregado
+al primero agregado. El {capture:true} en el parametro de un EventListener, funciona para que conforme vayan pasando las funciones, entrega el resultado de manera inmediata.
+Ejemplo, si tengo un EventListener de click a div y tengo varios div y los imprimo, de forma default va a imprimir el ultimo del html de primero, si tengo el capture true, va a imprimir en
+orden
+
+*En una funcion que provenga de un EventListener, si de parametro la funcion tiene el evento (e), podemos decir que 3.stopPropagation() y eso no va a permitir que se cicle la funcion.
+
+*El once tambien de parametro en el EventListener {once:true} funciona para que el elemento que tiene el EventListener, solo lo tenga una vez y no se vuela a cumplir de nuevo,
+a menos de que el usuario recargue la pagina. Es como si el EventListener se eliminara
+
+*elemento.getBoundingClientRect() funcion de gran importancia para sacara datos como pos x,y, tamanos...

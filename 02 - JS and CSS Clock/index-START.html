@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS + CSS Clock</title>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        background: #018ded url(https://unsplash.it/1500/1000?image=881&blur=5);
+        background-size: cover;
+        font-family: "helvetica neue";
+        text-align: center;
+        font-size: 10px;
+      }
+
+      body {
+        margin: 0;
+        font-size: 2rem;
+        display: flex;
+        flex: 1;
+        min-height: 100vh;
+        align-items: center;
+      }
+
+      .clock {
+        width: 30rem;
+        height: 30rem;
+        border: 20px solid white;
+        border-radius: 50%;
+        margin: 50px auto;
+        position: relative;
+        padding: 2rem;
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #efefef,
+          inset 0 0 10px black, 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .clock-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(
+          -3px
+        ); /* account for the height of the clock hands */
+      }
+
+      .hand {
+        width: 50%;
+        height: 6px;
+        background: black;
+        position: absolute;
+        top: 50%;
+        /*
+      El transform-origin en este caso va a servir para agarrar de donde mover las manecillas. Como por default el transform mueve en el centro de su eje, cambiando el transform origin
+      va a seleccionar un pundo su total tamano para rotar (rotar en este caso). Si lo ponemos al 100%, va a seleccionar su punto de rotacion al final de la manecilla, para que gire
+      de forma natural en el circlo del reloj
+      */
+        transform-origin: 100%;
+        /*
+        Para ponerlo en hora 00:00 por default, vamos a cambiar su angulo al 90deg
+        */
+        transform: rotate(90deg);
+        /*
+        Para agregarle un efecto de movimiento, le agregamos la propiedad de transition
+        */
+        transition: all 0.5s;
+      }
+    </style>
+
+    <script>
+      //Seleccion de manecillas
+      const segundosManecilla = document.querySelector(".second-hand");
+      const minutosManecilla = document.querySelector(".min-hand");
+      const horasManecilla = document.querySelector(".hour-hand");
+      function setDate() {
+        //Extraemos la hora actual
+        const actualidad = new Date();
+
+        //Acciones de los segundos
+        const segundos = actualidad.getSeconds();
+        const segundosGrados = (segundos / 60) * 360 + 90;
+        segundosManecilla.style.transform = `rotate(${segundosGrados}deg)`;
+
+        //Una solucion no muy buena para que cuando los segundos lleguen al maximo, no haga una animacion de devolverse a 0 deg
+        if (segundos == 0) {
+          segundosManecilla.style.transition = "none";
+        } else {
+          segundosManecilla.style.transition = "all 0.5s";
+        }
+
+        //Acciones de los minutos
+        const minutos = actualidad.getMinutes();
+        const minutosGrados = (minutos / 60) * 360 + 90;
+        minutosManecilla.style.transform = `rotate(${minutosGrados}deg)`;
+
+        //Acciones de las horas
+        const horas = actualidad.getHours();
+        const horasGrados = (horas / 12) * 360 + 90;
+        horasManecilla.style.transform = `rotate(${horasGrados}deg)`;
+      }
+      //Cada segundo llamamos a actualizar la hora
+      setInterval(setDate, 1000);
+    </script>
+  </body>
+</html>

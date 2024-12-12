@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>👀👀👀Follow Along Nav</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <ul class="menu">
+        <li><a href="">Home</a></li>
+        <li><a href="">Order Status</a></li>
+        <li><a href="">Tweets</a></li>
+        <li><a href="">Read Our History</a></li>
+        <li><a href="">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="wrapper">
+      <p>
+        Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit.
+        Est <a href="">explicabo</a> unde natus necessitatibus esse obcaecati
+        distinctio, aut itaque, qui vitae!
+      </p>
+      <p>
+        Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque
+        praesentium laborum pariatur earum <a href="">quaerat</a> cupiditate
+        consequuntur facilis ullam dignissimos, aperiam quam veniam.
+      </p>
+      <p>
+        Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime
+        <a href="">corrupti</a> possimus <a href="">veritatis</a> ipsum fugit
+        recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.
+      </p>
+      <p>
+        Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni
+        odit <a href="">totam</a> ut consequatur eveniet sunt quam provident
+        sapiente dicta neque quod.
+      </p>
+      <p>
+        Aliquam <a href="">dicta</a> sequi culpa fugiat
+        <a href="">consequuntur</a> pariatur optio ad minima, maxime
+        <a href="">odio</a>, distinctio magni impedit tempore enim repellendus
+        <a href="">repudiandae</a> quas!
+      </p>
+    </div>
+
+    <script>
+      // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+      //Selectores
+      const enlaces = document.querySelectorAll("a");
+      const destacar = document.createElement("SPAN");
+      destacar.classList.add("highlight");
+      document.body.append(destacar);
+
+      //Cuando se pase encima de un enlace, se activa la funcion
+      function destacarEnlace() {
+        //Obtenemos los datos del enlace (coordenadas, ancho, largo, etc), para poder agregar estilos al 'destacar' y que tenga esa transision
+        const datosEnlace = this.getBoundingClientRect();
+        //Agregamos el ancho y el largo
+        destacar.style.width = `${datosEnlace.width}px`;
+        destacar.style.height = `${datosEnlace.height}px`;
+
+        //Tenemos que setear la coordenada top, porque si el usuario ha hecho scroll, se bugea, entonces debemos de sumar lo que el usuario ha hecho scroll para que quede en los pxs exactos
+        const coordenadaTop = datosEnlace.top + window.scrollY;
+        //Hacemos la del left por si acaso
+        const coordenadaLeft = datosEnlace.left + window.scrollX;
+        //Agregamos el movimiento del destacar, moviendolo a donde se encuentre el enlace
+        destacar.style.transform = `translate(${coordenadaLeft}px,${coordenadaTop}px)`;
+      }
+
+      //Le agregamos el eventListener a cada enlace cada que el usuario pase el mouse por encima
+      enlaces.forEach((enlace) => {
+        enlace.addEventListener("mouseenter", destacarEnlace);
+      });
+    </script>
+  </body>
+</html>

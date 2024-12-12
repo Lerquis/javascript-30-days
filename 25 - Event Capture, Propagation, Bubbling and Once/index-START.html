@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+
+    <button>Sirvo</button>
+    <script>
+      //Selectores
+      const divs = document.querySelectorAll("div");
+      const boton = document.querySelector("button");
+
+      //Funciones
+
+      function imprimirTextoPadre(e) {
+        //Imprimimos los nombres que tengan la clases el elemento
+        console.log(this.classList.value);
+        //Al EventListener tener el capture true, va correr esta funcion de manera inmediata, por ende como empieza de padre a hijo triggereando la funcion, no importa donde se de
+        //click entre los divs, el resultado siempre va a ser el div padre
+
+        //El stopPropagation funciona para que solo muestre el primer resultado, y no se triggere por si se tienen mas, En este caso solo va a imprimir el padre y listo
+        //e.stopPropagation();
+      }
+
+      function imprimirTextoSeleccionado(e) {
+        //Imprimimos los nombres que tengan la clases el elemento
+        console.log(this.classList.value);
+
+        //Al EventListener tenerl el capture false, su resultado va a ser solamente el ultimo que cumple el requisito para dar resultado, por ende lo que va a imprimir en este caso
+        //va a ser el ultimo hijo div
+      }
+
+      //EventListener
+      divs.forEach((div) => {
+        div.addEventListener("click", imprimirTextoPadre, {
+          capture: true,
+        });
+        div.addEventListener("click", imprimirTextoSeleccionado, {
+          capture: false,
+        });
+      });
+
+      boton.addEventListener(
+        "click",
+        () => {
+          alert(
+            "Solo se puede dar click una vez, porque tiene once" +
+              "\n" +
+              "Recargar pagina para darle de nuevo"
+          );
+          boton.innerHTML = "Ya no sirvo";
+        },
+        //El boton solo va a tener esa funcion 1 vez, y despues actua como si este eventlistener no existiera
+        { once: true }
+      );
+    </script>
+  </body>
+</html>

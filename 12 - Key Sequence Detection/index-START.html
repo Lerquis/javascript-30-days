@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <script
+      type="text/javascript"
+      src="https://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      let presionado = [];
+      const codigoSecreto = "secreto";
+      window.addEventListener("keyup", function (e) {
+        //presionado.push(e.key);
+        presionado = [...presionado, e.key];
+        //Remplaza (presionado.length - codigoSecreto.length) elementos en el indice 0
+        //El remplazar elementos al inicio va a empezar en negativo, lo que sucede es que entre mas elementos se le meta a presionado, el negativo se va a ir quitando, hasta llegar a 1,
+        //lo cual quiere decir que debe de remplazar 1 elemento de la lista
+        presionado.splice(0, presionado.length - codigoSecreto.length);
+        /*
+        Entonces el presionado.splice en el caso anterior realiza esto:
+        la lista al maximo son de 7 espacios, entonces el nuevo agregado se va al campo 8 por el presionado = [...presionado, e.key], y el splice va a eliminar 1
+        elemento (simpre y cuando la lista este en el rango permitido, que es el length de codigoSecreto) en el indice 0, por ende lo que estaba en el indice 1 pasa al 0 y todos se corren
+        un campo atras
+        */
+
+        //El join funciona para iterar la lista, y hacerla una string, el parametro es para  ver como separar el string por cada elemento de la lista
+        //En este caso no queremos que se separe, queremos que todas se peguen
+        if (presionado.join("").includes(codigoSecreto)) {
+          const logrado = document.createElement("H1");
+          logrado.style.color = "lightgreen";
+          logrado.textContent = "CODIGO SECRETO LOGRADO";
+          document.querySelector("body").appendChild(logrado);
+          //Random que inyecta unicornios
+          cornify_add();
+        }
+      });
+    </script>
+  </body>
+</html>

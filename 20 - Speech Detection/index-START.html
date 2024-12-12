@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Speech Detection</title>
+  </head>
+  <body>
+    <div class="words" contenteditable></div>
+
+    <script>
+      //Sintaxis para obtener la voz del usuario
+      window.SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      //No se honestamente, pero necesario. Creo que es para ir agarrando lo que va diciendo
+      const recognition = new SpeechRecognition();
+      recognition.interimResults = true;
+
+      //Creamos parrafo para ir agregandolo a la pagina
+      let parrafo = document.createElement("P");
+      const words = document.querySelector(".words");
+      words.appendChild(parrafo);
+
+      //Cada que el usuario hable, se va a obtener un resultado, lo que activaria la funcion
+      recognition.addEventListener("result", (e) => {
+        //Nos metemos a los datos del evento, y sacamos lo necesario, en este caso lo hacemos una lista para poder acceder a ciertos valores que nos importan, que se encuentran
+        //En el indice 0
+        const transcribir = Array.from(e.results)
+          .map((resultado) => resultado[0])
+          //Accedemos al texto que dijo el usuario
+          .map((resultado) => resultado.transcript)
+          //Lo hacemos todo una string (ya que es una lista de las palabras que el usuario dijo) y las unimos
+          .join("");
+
+        parrafo.textContent = transcribir;
+
+        //El evento tiene una funcion para saber si el usuario dejo una pausa larga para dejar claro que termino de hablar
+        if (e.results[0].isFinal) {
+          //Esto lo tenemos para que cuando el usuario marque su final, no borre el texto anterior, sino que crea un nuevo parrafo y deja guardado el parrafo anterior, ya que sin esto
+          //lo sobreescribe
+          parrafo = document.createElement("P");
+          words.appendChild(parrafo);
+        }
+
+        //Si el usuario dijo la palabra María, pues activa la funcion
+        if (transcribir.includes("María")) {
+          console.log("RICA");
+        }
+        //console.log(transcribir);
+      });
+
+      //Si lo dejamos con el EventListener anterior, la funcion solo se llamara una vez, por eso tenemos que anadir otro EventListener para que cuando termine el evento, volver
+      //A llamar la funcion y tenerlo de manera costante escuchando
+      recognition.addEventListener("end", recognition.start);
+
+      //Empezamos el uso del microfono y de obtener la voz
+      recognition.start();
+    </script>
+
+    <style>
+      html {
+        font-size: 10px;
+      }
+
+      body {
+        background: #ffc600;
+        font-family: "helvetica neue";
+        font-weight: 200;
+        font-size: 20px;
+      }
+
+      .words {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        padding: 1rem 2rem 1rem 5rem;
+        background: -webkit-gradient(
+            linear,
+            0 0,
+            0 100%,
+            from(#d9eaf3),
+            color-stop(4%, #fff)
+          )
+          0 4px;
+        background-size: 100% 3rem;
+        position: relative;
+        line-height: 3rem;
+      }
+
+      p {
+        margin: 0 0 3rem;
+      }
+
+      .words:before {
+        content: "";
+        position: absolute;
+        width: 4px;
+        top: 0;
+        left: 30px;
+        bottom: 0;
+        border: 1px solid;
+        border-color: transparent #efe4e4;
+      }
+    </style>
+  </body>
+</html>

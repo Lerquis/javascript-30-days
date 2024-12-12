@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Speech Synthesis</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="voiceinator">
+      <h1>The Voiceinator 5000</h1>
+
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate:</label>
+      <input name="rate" type="range" min="0" max="3" value="1" step="0.1" />
+
+      <label for="pitch">Pitch:</label>
+
+      <input name="pitch" type="range" min="0" max="2" step="0.1" />
+      <textarea name="text">Hello! I love JavaScript 👍</textarea>
+      <button id="stop">Stop!</button>
+      <button id="speak">Speak</button>
+    </div>
+
+    <script>
+      //Sintaxtis para la funcion de leer y reproducir el texto
+      const msg = new SpeechSynthesisUtterance();
+      //Donde se guardan las voces disponibles para que el usuario pueda seleccionar
+      let voices = [];
+      //Selectores
+      const voicesDropdown = document.querySelector('[name="voice"]');
+      const options = document.querySelectorAll(
+        '[type="range"], [name="text"]'
+      );
+      const speakButton = document.querySelector("#speak");
+      const stopButton = document.querySelector("#stop");
+
+      //Agarramos el texto que el usuario haya escrito
+      msg.text = document.querySelector("textarea").value;
+
+      //Funciones
+      function voces() {
+        //obtenemos las voces que tenga el ordenador(creo)
+        voices = this.getVoices();
+        //Creamos una lista de las voces, para sacar las que nos interesa. Despues lo convertimos en un texto con el join para agregarlo como codigo html para llenar la lista de
+        //opciones de voz
+        const vocesLista = voices
+          //Filtramos las voces en espanol
+          .filter((voz) => voz.lang.includes("es"))
+          .map(
+            (voz) =>
+              `<option value="${voz.name}">${voz.name} ${voz.lang}</option>`
+          )
+          .join("");
+        voicesDropdown.innerHTML = vocesLista;
+      }
+
+      function setearVoz() {
+        //Para que cuando se cambie la voz, se cancele la anterior
+        cancelarVoz();
+        //Buscamos en la lista de voces, la voz que sea la misma, cuando la encuentre, la setea
+        msg.voice = voices.find((voz) => voz.name === this.value);
+      }
+
+      function cancelarVoz() {
+        speechSynthesis.cancel();
+      }
+
+      function hablar() {
+        cancelarVoz();
+        speechSynthesis.speak(msg);
+      }
+
+      function setOpcion() {
+        //Cambiamos el valor que se toco. BUENA MANERA DE HACERLOS
+        msg[this.name] = this.value;
+        hablar();
+      }
+
+      //EventListeners
+      speechSynthesis.addEventListener("voiceschanged", voces);
+      voicesDropdown.addEventListener("change", setearVoz);
+      speakButton.addEventListener("click", hablar);
+      stopButton.addEventListener("click", cancelarVoz);
+      options.forEach((opcion) => {
+        opcion.addEventListener("change", setOpcion);
+      });
+    </script>
+  </body>
+</html>

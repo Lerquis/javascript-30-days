@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1>🔥WOAH!</h1>
+    </div>
+
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
+
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
+
+    <script>
+      //Selectores
+      const hero = document.querySelector(".hero");
+      const texto = document.querySelector("h1");
+      const moverse = 100;
+
+      //Funciones
+      function sombra(e) {
+        //Con el destructuring, extraemos las variables de la siguiente manera
+        const { offsetWidth: width, offsetHeight: height } = hero;
+        let { offsetX: x, offsetY: y } = e;
+
+        //Si el mouse se esta moviendo por encima del elemento, pero el elemento tiene hijos, los x e y del 'e' se veran afectados, entones tenemos que saber si esta parandose en un hijo
+        //para modificarlo y que no afecte nuestras variables x y
+        //console.log(this, e.target);
+        //this en este caso es el hero. e.target es donde el mouse se esta poniendo encima
+        if (this !== e.target) {
+          //Con esas operaciones matematicas, 'ignoramos' el cambio que nos va a dar por mover el mouse encima de un hijo del elemento
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+        }
+
+        //Funcion matematica para sacar el maximo posible del moviemiento del texto, si tenemos un ejemplo de 100 de ancho, se podra -50 hacria arriba-izquierda (punto maximo de movimiento)
+        //o 50 hacia la derecha-abajo (punto maximo de movimiento)
+        //Pasamos de float a un int
+        const xMover = Math.round((x / width) * moverse - moverse / 2);
+        const yMover = Math.round((y / height) * moverse - moverse / 2);
+
+        //Agregamos los estilos al texto
+        texto.style.textShadow = `${xMover}px ${yMover}px 0 rgb(84, 18, 18,.5),${
+          xMover * -1
+        }px ${yMover}px 0 rgb(139, 154, 70,.5),${xMover}px ${
+          yMover * -1
+        }px 0 rgb(236, 219, 186,.5),${xMover * -1}px ${
+          yMover * -1
+        }px 0 rgb(200, 75, 49,.5)`;
+      }
+
+      //Listeners
+      hero.addEventListener("mousemove", sombra);
+    </script>
+  </body>
+</html>

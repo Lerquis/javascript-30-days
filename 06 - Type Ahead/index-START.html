@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      let ciudades = [];
+      leerDatos();
+
+      //Tiene que ser async para poder usar la funcion await. Funcion para ingresar a la pagina y poder recibir los datos
+      async function leerDatos() {
+        //El await es importante, porque tenemos que esperar a que carge la pagina
+        const resutado = await fetch(endpoint);
+        //Await importante, porque tenemos que esperar a que cargue los datos mediante el fetch y convertimos sus datos en un JSON
+        const respuesta = await resutado.json();
+        //Creamos una copia de ciudades y de respuesta, las agregamos los datos que contenga respuesta
+        ciudades = [...ciudades, ...respuesta];
+      }
+
+      function encontrarEmparejamiento(palabraEmparajar, ciudades) {
+        return ciudades.filter((ciudad) => {
+          //Empezar a encontrar la ciudad que el usuario esta digitando
+          //Pasamos las palabras con la funcion RegExp, de parametro es el input que va digitando el usuario, 'g' se refiere a global y la 'i' que no importen las mayus/minus
+          const regex = RegExp(palabraEmparajar, "gi");
+          //Empareja, ya sea si el usuario esta digitando la ciudad o el estado
+          return ciudad.city.match(regex) || ciudad.state.match(regex);
+        });
+      }
+
+      //Seleccionamos los elementos html necesarios
+      const inputBuscar = document.querySelector(".search");
+      const mostrarResultado = document.querySelector(".suggestions");
+
+      //Cada que el usuario digite una tecla o borre, se obtendran los datos
+      inputBuscar.addEventListener("keyup", mostrarEmparejados);
+
+      //FUNCION SACADA DE INTERNET
+      function agregarComa(x) {
+        x = x.toString();
+        var pattern = /(-?\d+)(\d{3})/;
+        while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+        return x;
+      }
+
+      function mostrarEmparejados() {
+        //Para evitar errores, eliminamos espacios finales e iniciales, para que no interrumpan la busqueda
+        const busca = this.value.trim();
+
+        //Como va a empezar a tener grandes resultados, vamos guardando todo en un array. Conforme el usuario siga digitando, esta funcion se va a ir actualizando, y la lista se ira
+        //reduciendo
+        const listaResultados = encontrarEmparejamiento(busca, ciudades);
+
+        //Creamos una variable con las ciudades que tienen match, y sacando lo importante (que serian la ciudad, estado y poblacion) actualizado con lo que va buscando el usuario
+        //y lo vamos agregando a un string de html para despues agregarlo al documento
+        const datosNecesarios = listaResultados
+          .map((ciudad) => {
+            //Los textos que coincidan con lo que vamos buscando los seleccionamos con la funcion de abajo
+            const regex = new RegExp(this.value, "gi");
+
+            //Lo remplazamos el nombre que coincida con un span y el texto que iba, pero el span va a tener una clase de hl para que se vea subrayado los resultados que hacen match
+            //Con lo que esta buscando el usuario
+            const nombreCiudad = ciudad.city.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            const nombreEstado = ciudad.state.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            //Para que el numero se vea mejor, agregamos comas para dar una mejor experiencia del usuario
+            const numeroConComas = agregarComa(ciudad.population);
+            return `
+            <li>
+                <span class="name">${nombreCiudad}, ${nombreEstado}</span>
+                <span class="population">${numeroConComas}</span>
+            </li>
+          `;
+          })
+          .join("");
+        //IMPORTANTE AGREGAR EL join('') AL FINAL, YA QUE SETEA LA SEPARACION DE LISTAS SIN COMA. PROBAR SIN EL JOIN PARA VER EL RESULTADO
+        //console.log(datosNecesarios);
+
+        //Agregamos los datos al html
+        mostrarResultado.innerHTML = datosNecesarios;
+      }
+    </script>
+  </body>
+</html>

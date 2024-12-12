@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <script>
+      //Seleccionamos el canvas
+      const canvas = document.querySelector("#draw");
+      //Decimos que va a ser 2D, existen mas context
+      const ctx = canvas.getContext("2d");
+      //Lo hacemos del tamano del monitor del usuario
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      //Seteamos el 'pincel'
+      ctx.strokeStyle = "#BADA55";
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.lineWidth = 100;
+
+      //Para saber cuando esta dibujando debemos de tener un booleano
+      let estaDibujando = false;
+
+      let utlimaPosX = 0;
+      let ultimaPosY = 0;
+
+      //La direccion va a servir para decirle al grosor del pincel, cuando devolverse a hacer pequeno o grande
+      let direccion = false;
+
+      //Para el color
+      let color = 0; //FORMATO HSL (BUSCAR EN INTERNET)
+
+      function dibujar(e) {
+        if (!estaDibujando) return; //No nos importa si no esta dando click
+
+        //Esta dibujando
+        //Empezamos a poner lo que se esta dibujando
+        ctx.beginPath();
+        //Ponemos el color
+        ctx.strokeStyle = `hsl(${color}, 100%, 50%)`;
+        //Empieza desde..
+        ctx.moveTo(utlimaPosX, ultimaPosY);
+        //Hasta..
+        ctx.lineTo(e.offsetX, e.offsetY);
+        //Dibuja
+        ctx.stroke();
+
+        //Importante que este en constante actualizacion las pos
+        utlimaPosX = e.offsetX;
+        ultimaPosY = e.offsetY;
+        color++;
+        if (color >= 360) {
+          color = 0;
+        }
+
+        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+          direccion = !direccion;
+        }
+        if (!direccion) {
+          ctx.lineWidth++;
+        } else {
+          ctx.lineWidth--;
+        }
+        console.log(ctx.lineWidth);
+      }
+
+      //Cuando -- se llama la funcion de dibujar
+      canvas.addEventListener("mousemove", dibujar);
+      //Si da click, esta dibujando
+      canvas.addEventListener("mousedown", (e) => {
+        estaDibujando = true;
+        //Importante para que cuando se vuelva a dibujar, no se bugge la linea y empiece desde la posision anterior
+        utlimaPosX = e.offsetX;
+        ultimaPosY = e.offsetY;
+      });
+
+      canvas.addEventListener("mouseup", () => (estaDibujando = false));
+      //Si el mouse se sale de la pantalla del canvas, lo seteamos en false tambien
+      canvas.addEventListener("mouseout", () => (estaDibujando = false));
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
+</html>

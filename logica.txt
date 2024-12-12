@@ -1,0 +1,136 @@
+Aqui se estaran anotando la logica de cada proyecto
+
+/* PRIMER VIDEO */
+Los data keys se relacionan, es decir, las keys y los audios son iguales, para seleccionarlos mediante javascript y cuando se precione una tecla, seleccionar por el datakey.
+Asi se agrega estilos y se sabe que audio reproducir
+
+/* SEGUNDO VIDEO */
+Cada manecilla del reloj se mueve mediante un rotate en css que se va actualizando mediante un intervalo de tiempo en JavaScript. JavaScript agarra la hora del usuario y mediante esa 
+hora mueve las manecillas para colocar la hora actual
+
+/* TERCER VIDEO */
+Mediante los inputs, cambiar las variables de css, asi cambiar los valores de los atributos de los elementos
+
+/* CUARTO VIDEO */
+Ensenanza de manejo de arrays y sus funciones
+
+/* QUINTO VIDEO */
+Cuando se le da click a un panel, el flex aumenta para que crezca mas en comparacion a los demas, igual que su texto crece y aparecen otras palabras. Importante el uso del display: flex
+y del flex; *numero*. Las comprobaciones para quitar el panel del anterior, que si se da el click al mismo panel, quitar por completo la clase, para que se pueda hacer pequeno y tener
+un return y que no se vuelva a agregar la clase
+
+/* SEXTO VIDEO */
+Agarramos una base de datos ya creada en internet. Accedemos a los datos mediante el fetch y la guardamos en una lista global. Tenemos un input que vamos a tener un EventListener que va a 
+estar escuchando cada que el usuario realice un cambio en el input. Cada cambio que el usuario realice va a realizar una busqueda en la lista global que tenemos y mediante la funcion de 
+regex vamos a buscar coincidencias en las palabras, que vamos a guardarlas en otra lista, vamos a sacar los datos necesarios y lo vamos a agregar a un texto con formato html para
+agregarlo al documento y mostrarlo
+
+/* SEPTIMO VIDEO */
+Ensenanza de manejo de arrays y sus funciones
+
+/* OCTAVO VIDEO */
+Se basa en agarra la pos x - y del mouse, cuando se da click poder pintar, tener cuidado con las actualizaciones de las pos. El codigo esta bastante bien comentado
+
+/*NOVENO VIDEO */
+Demostracion de usos de la consola, diferentes tipos de datos que podemos imprimir, contar, ver la duracion, etc
+
+/* DECIMO VIDEO */
+Iteramos todos los checkboxes para agregarle un EventListener de cuando le da click, asi podemos tener la refencia, en la misma funcion podemos saber si el usuario tuvo shift presionado.
+Si pasa estas comprobaciones, tenemos que guardar siempre el ultimo checkbox registrado, y cuando esto pasa seleccionamos del ultimoCheckbox hasta el actual, preguntando si las checkboxes
+extras se encuntrar dentro del ultimoCheckbox y el y si es asi, se marcan como checked, si no, no se les hace nada
+
+/* UNDECIMO VIDEO */
+Creacion de un video, se usa matematicas para saber cuales son los segundos, mediante porcentajes sabemos como movernos por la barra, funciones con el video, para setearlo, pausarlo
+
+/* DUODECIMO VIDEO */
+Agregamos un EventListener para registrar cada tecla que ingrese el usuario, tenemos una lista que solo va a permitir el largo de la palabra secreta (gracias al splice) y tenemos
+una comprobacion donde pasamos el array a string gracias a join() y comparamos con el includes() y si es la misma, pues acerto el codigo secreto
+
+/* DECIMOTERCER VIDEO */
+Extraemos los elementos a los que le queremos agregar el efecto. Tenemos que saber mediante el EventListener de scroll, en que pixel se encuentra el usuario en la pantalla (agarrando
+como pixel de referencia la linea del bottom) y empezar a sacar calculos sobre en que pixel queremos mostrar la imagen, si la pantalla ya va por ese pixel, agregamos la clase
+
+/* DECIMOCUARTO VIDEO */
+Maneras de como tener referencias y copiar listas y objetos. Importante saber que en la copia de Objetos, las maneras 'oficiales' solo copian el primer nivel, PERO si 
+el objeto se pasa una string y despues a un JSON y se le asigna, copia todo y no modifica el original
+
+/* DECIMOQUINTO VIDEO */
+Cuando el usuario entra a la pagina, accedemos al localStorage y buscamos la key que ocupamos, si no existe creamos una lista vacia, porque seria la primera vez que el usuario visita
+la pagina. Entonces tenemos que convertir el json a objetos mediante un parse. Cuando esta convertido la lista ya se va a cargar. Cuando el usuario ingresa un nuevo item a la lista
+lo tenemos que hacer un objeto, y tenemos que guardarlo en el localStorage como un json, entonces tenemos que convertir el objeto a json mediante el stringify. Ya guardado el 
+item se mostrar mediante el innerHTML de la lista, que cada ves se agrega un item, se recarga todo el archivo de listas accediento al localStorage y se actualiza inmediantamente, 
+haciendo la pagina dinamica, sin recargas.
+Cuando se agregan los items, no estan registrados en el archivo JS, entonces lo que tenemos que hacer es decirle al padre de esos elementos, que cuando se de click en su contenido, se lo
+pase al hijo que se le dio click. Sabemos a cual hijo le da click gracias al e.target y a que cada target tiene su data-index, por lo cual accedemos por su indice y podemos
+realizar el cambio y lo actualizamos cada que el usuario realiza el check en un item
+
+/* DECIMOSEXTO VIDEO */
+Tenemos que saber cuantos pxs queremos mover nuestro elemento, por eso debemos de guardarlo en una variable. Despues debemos de registar un EventListener del mouse moviendose, e
+implementar una operacion matematica porque cuando el mouse se pasa por un hijo del elemento donde queremos realizar el efecto, los pxs se resetean, entonces debemos de sacar la medida
+del objeto hijo y sumarla, para que no afecte en el conteo de pxs. Teniendo las operaciones de cuanto queremos mover el elemento, simplemente queda agregarle efectos al elemento que se lo
+queremos agregar
+
+/* DECIMOSEPTIMO VIDEO */
+Recorremos la lista, ponemos un replace con la sintaxis correcta para eliminar las palabras no deseadas de las palabras, realizamos la comparacion con el nombre ya corregido (sin las
+palabras que no queremos). Despues recorremos la lista para crear nuestro codigo html, lo pasamos a una string gracias al join() y lo inyectamos al elemento html deseado
+
+/* DECIMOOCTAVO VIDEO */
+Primero extraemos todos los elementos que tengan el dataset, lo convertimos a una lista para poder usar la funciones de listas, en este caso usamos el map. Despues accedemos a cada
+elemento que tenga la lista, y mediante el map otra vez, accedemos al dataset de tiempo, lo cual ya obtenemos los minutos y segundos. tenemos que convertirlos en un int. Despues de
+convertirlos sqcamos la operacion para convertir todo en segundos. Ya tenemos los segundos totales de todo el tiempo de los videos. Ahora los segundos totales, lo pasamos a un let
+ya que sera una variable que estara en cambio constante. Sacamos las horas que tienen esos segundos de manera que no se puedan redondear, y sacamos los segundos sobrantes de esas horas
+y lo guardamos, Ahora esos segundos faltantes los convertimos en minutos sin redondear y sacamos los segundos faltantes de esos minutos y listo, tendriamos las horas, los minutos y segundos
+totales de los videos
+
+/* DECIMONOVENO VIDEO */
+Bien comentado el codigo, simplemente es el uso de las funciones de la camara
+
+/* VIGESIMO VIDEO */
+Se activa el reconocimiento de voz, y tenemos que tener un EventListener para que cuando el usuario hable, tenga un resultado, y este active la funcion, donde podemos tener una lista
+de las palabras que dijo el usuario, y lo convertimos en un texto con el join(). El problema es que el EventListener de result solo funciona una vez y la funcion de reconocimiento de voz
+deja de funcionar. Entonces cuando termine el EventListener de result, tenemos que tener otro EventListener de end, que funciona para saber cuando termino un evento, entonces este activa
+el reconocimiento de voz y ya se realiza un bucle para que el reconocimiento de voz funcione siempre
+
+/* VIGESIMOPRIMER VIDEO */
+Para este se ocupa tener los datos reales, los cuales se consiguen desde un celular, por ende ver el codigo terminado para entender las funciones
+
+/* VIGESIMOSEGUNDO VIDEO */
+Seleccion de todos los enlaces, agregarles un EventListener de que detecte cuando el mouse esta encima de el. Tenemos que sacar los datos del enlace(coords, tamano).
+Ya una vez obtenidos, agregamos los datos a los estilos de la clase que va a tener el efecto y listo. Cada que el usuario pase encima de un enlace, se van a actualizar los estilos
+y la clase se ira moviendo libremente por el documento
+
+/* VIGESIMOTERCER VIDEO */
+Tenemos que obtener las voces del ordenador, si queremos podemos poner un filtro para poner las voces en el lenguaje que nos interesa. Tenemos que setear las voces cuando el usuario las
+cambie, un boton para hablar, parar. Ver codigo para entender mejor, esta bien comentado
+
+/* VIGESIMOCUARTO VIDEO */
+Se tiene que seleccionar el navegador, saber cual es el pixel top del navegador, asi cuando el usuario scroll se llamara un EventListener que va a tomar todas las pos x,y y cuando esta
+sea mayor o igual al top del navegador, tendremos que agregar la clase que contiene los atributos que queremos. 
+
+/* VIGESIMOQUINTO VIDEO */
+Seleccionamos los divs, los hijos se van sobreponiendo a los padres, entonces en datos podemos leer que se tiene que hacer, para saber cual queremos seleccionar y como parar las funciones
+si ya tenemos el resultado obtenido. De igual manera el codigo se encuentra bien comentado
+
+/* VIGESIMOSEXTO VIDEO */
+Se tiene que tener el EventListener de mousehover en el 'li' porque es que el va a contener todo, ya que si se tiene en el enlace, al entrar a los elementos, se sale del enlace y por ende
+se cerraria el dropdown. En cambio el li contiene todos los objetos, pero al inicio solo muestra el enlace, una vez encima, muestra todos y nos podemos mover libremente porque seguimos
+dentro de ese li. Medir bien las coordenadas y saber que movimientos pueden afectar las posiciones, agregar y quitar clases cuando se este o no encima del elemento, jugar con el this.
+
+/* VIGESIMOSEPTIMO VIDEO */
+Tenemos que saber en que px inicial hizo click el usuario, ya sabiendo esto, tenemos que saber hacia que lado hace click el usuario, si es a la izq o der del punto inicial, esto
+lo sabemos gracias a la X del click inicial y si el movimiento en x del mouse actual esta siendo > o < que x, igual lo tenemos que restar y este resultado se lo agregamos a la propiedad
+scroll del bloque, asi hacemos que se vaya moviendo de manera horizontal dependiendo del movimiento del mouse y de donde se empezo el movimiento
+
+/* VIGESIMOOCTAVO VIDEO */
+Tenemos que tomar el tamano de la barra, sacar %s, establecer un min y un max de velocidad de video, y dependiendo del movimiento del usuario en la barra mediante un EventListener
+y sacando la media de la velocidad y agregarlo al playbackrate del video
+
+/* VIGESIMONOVENO VIDEO */
+Tenemos que obtener la hora actual, recibir la hora que queremos terminar la alarma, y tener un intervalo de tiempo cada segundo para que actualice el contador. Cuando se crea una nueva 
+alarma debemos de eliminar la anterior para que no se buguee el div que muestra la alarma. Importante las conversiones de tiempo y arreglar el horario para que se muestre de manera mas
+estetica. Para el tiempo cuado el tiempo faltante sea menor que 0
+
+/* TRIGESIMO VIDEO */
+Tenemos que seleccionar de los elementos de manera aleatoria, en este caso los elementos de los huecos, tener un timer aleatorio tambien, para levantar su topo y una comprobacion para
+que los huecos no se repitan, sino que siempre sean diferentes. Tener un EventListener para cuando el usuaro le da click al topo una vez que se levanta y asi aumentar su contador. Resetear
+el contador siempre que el usuario quiera empezar el juego de nuevo
